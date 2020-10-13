@@ -52,7 +52,7 @@ h1 {
   height: 70px;
   position: absolute;
   z-index: 2;
-  bottom: -10px;
+  bottom: -20px;
 }
 .mole {
   background: url("/img/mole.svg") bottom center no-repeat;
