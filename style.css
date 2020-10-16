@@ -86,6 +86,14 @@ h1 {
 .button:active {
   background: rgba(255, 255, 255, 0.6);
 }
- .hole.up .mole {
+ .up .mole {
   top: 0;
+}
+.speed {
+  text-align: center;
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: 0;
+  height: 30px;
+  transition: opacity 1s ease-in-out;
 }
