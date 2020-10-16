@@ -4,16 +4,32 @@ const holes  = document.querySelectorAll('.hole'),
     rbtn = document.querySelector('.removeBtn'),
     btn = document.querySelector('.startBtn');
     let highScoreBoard = document.querySelector('.high-score');
-    let lastHole;
-    let timeUp = false;
-    let score = 0,
-        prevScore = 0;
-
-    function randomTime(quickTime){
-     quickTime = score>=18?[100, 400]:score>=15?[200, 400]:score>=12?[600, 800]:score>=8?[800, 100]:[100, 1300];
-        return Math.round(Math.random() * (quickTime[1] - quickTime[0]) + quickTime[0]);
-    }
-
+        levelBoard = document.querySelector('.speed');
+    let lv;
+    let lastHole,
+        timeUp = false,
+        score = 0,
+        prevScore = 0,
+        timeLv = {
+            lv1: [800, 1000],
+            lv2: [600, 800],
+            lv3: [400, 600],
+            lv4: [200, 400],
+            lv5: [100,200]
+        },
+        scoreLv = {
+            lv1: 1,
+            lv2: 5,
+            lv3: 10,
+            lv4: 15,
+            lv5: 18
+        };
+        
+    function randomTime(quickTime){ 
+        quickTime = score>=scoreLv.lv5?timeLv.lv5:score>=scoreLv.lv4?timeLv.lv4:score>=scoreLv.lv3?timeLv.lv3:score>=scoreLv.lv2?timeLv.lv2:timeLv.lv1;
+        return Math.round(Math.random() * (quickTime[1] - quickTime[0]) + quickTime[0]);   
+    } 
+    
     function randomHole(holes){
         const idx = Math.floor(Math.random() * holes.length),
             hole = holes[idx];
@@ -21,16 +37,17 @@ const holes  = document.querySelectorAll('.hole'),
         lastHole = hole;
         return hole;
     }
-function peep(){
+
+function peep(){  
    const time = randomTime(),
    hole = randomHole(holes);
-   hole.classList.add('up')
+   hole.classList.add('up');
    setTimeout(() => {
        hole.classList.remove('up')
        if(score > prevScore){
         localStorage.setItem('score', score);
         prevScore = score;
-        loadScore()
+        loadScore();
        }      
        if(!timeUp) peep();   
    }, time);
@@ -42,13 +59,30 @@ function startGame(){
     prevScore = localStorage.getItem('score');
     peep();
     setTimeout(() => {
+        levelBoard.style.opacity = '0';
         timeUp = true;        
     }, 15000);
 }
 
 function scoreUp(e){
     if(!e.isTrusted) return;
-    score++;
+    score++;     
+    if(score === scoreLv.lv5){
+        levelBoard.textContent = 'Speed up to: 5x';
+        levelBoard.style.opacity = '1';
+    } else if (score === scoreLv.lv4){
+        levelBoard.textContent = 'Speed up to: 4x';
+        levelBoard.style.opacity = '1';
+    } else if (score === scoreLv.lv3){
+        levelBoard.textContent = 'Speed up to: 3x';
+        levelBoard.style.opacity = '1';
+    } else if (score === scoreLv.lv2){
+        levelBoard.textContent = 'Speed up to: 2x';
+        levelBoard.style.opacity = '1';
+    } else {
+        levelBoard.style.opacity = '0';
+
+    }
     this.parentNode.classList.remove('up');
     scoreBoard.textContent = score;
 }
