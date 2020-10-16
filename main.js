@@ -85,18 +85,21 @@ function scoreUp(e){
         levelBoard.style.opacity = '1';
     } else {
         levelBoard.style.opacity = '0';
-
     }
     this.parentNode.classList.remove('up');             // после клика удаление класса у бобра
     scoreBoard.textContent = score;             //запись в текущие очки
 }
 function removeScore(){
     timeUp = true;
-    localStorage.setItem('score', 0);                           //работа кнопки очистки макс-го результата
-    highScoreBoard.textContent =  'High score: 0';
+    localStorage.setItem('score', 0);      
+    updateScore();                     //работа кнопки очистки макс-го результата
 }
-function loadScore() {      //показ максимального результата
-    highScoreBoard.textContent = `High score: ${localStorage.getItem('score')?localStorage.getItem('score'): 0}`
+function updateScore(score = 0){
+    highScoreBoard.textContent =  `High score: ${score}`;
+}
+function loadScore() {   
+    const localScore = localStorage.getItem('score')?localStorage.getItem('score'): 0   //показ максимального результата
+    updateScore(localScore);
 }
 btn.addEventListener('click', startGame);
 rbtn.addEventListener('click',removeScore)
